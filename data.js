@@ -30,3 +30,9 @@ window.binDatabase = [
     { id: 29, zone: "Dharampur", name: "Nehru Colony Entry", lat: 30.3020, lng: 78.0450, capacity: 80 },
     { id: 30, zone: "Dharampur", name: "Rispana Bridge", lat: 30.2980, lng: 78.0420, capacity: 10 }
 ];
+
+// New Data: City Waste Disposal & Recycling Centers
+window.disposalCenters = [
+    { id: "DC-1", name: "Central Treatment Plant", lat: 30.2950, lng: 78.0200 },
+    { id: "DC-2", name: "Western Processing Hub", lat: 30.3200, lng: 78.0050 }
+];

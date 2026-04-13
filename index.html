@@ -2,27 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Smart Waste Management System - Dehradun Command</title>
+    <title>SWMS - Nexus Command</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="map-container"><div id="map"></div></div>
 
-    <div id="dashboard">
-        <h2>Dehradun Central</h2>
-        <div id="bin-list">
-            </div>
+    <nav id="nexus-nav">
+        <div class="nav-brand">WMS</div>
+        <div class="nav-item" onclick="window.appSystem.switchModule('overview', this)">📘 Overview</div>
+        <div class="nav-item active" onclick="window.appSystem.switchModule('monitoring', this)">📍 Monitor</div>
+        <div class="nav-item" onclick="window.appSystem.switchModule('routing', this)">🚚 Routing</div>
+        <div class="nav-item" onclick="window.appSystem.switchModule('analytics', this)">📊 Analytics</div>
+        <div class="nav-item" onclick="window.appSystem.switchModule('admin', this)">⚙️ Admin</div>
+    </nav>
+
+    <div id="module-overview" class="ui-panel">
+        <h2>1. Description</h2>
+        <p class="panel-desc">The Smart Waste Management System is an IoT-based application designed to monitor garbage bin levels in real-time and optimize waste collection routes. Sensors installed in waste bins send data to a central system, which helps municipal authorities plan efficient garbage collection and reduce environmental pollution.</p>
+
+        <h2>2. Modules</h2>
+        <ul class="tech-list">
+            <li>Smart Bin Monitoring</li>
+            <li>Waste Collection Scheduling</li>
+            <li>Route Optimization</li>
+            <li>Admin Dashboard</li>
+            <li>Reporting and Analytics</li>
+        </ul>
+
     </div>
 
-    <div id="map-container">
-        <div id="map"></div>
+    <div id="module-monitoring" class="ui-panel active-panel">
+        <h2>Live Network</h2>
+        <div id="bin-list"></div>
+    </div>
+
+    <div id="module-routing" class="ui-panel">
+        <h2>Fleet Command</h2>
+        <p class="panel-desc">AI-driven spatial routing and real-time truck dispatch.</p>
+        <button class="dispatch-btn" onclick="window.routeSystem.runDispatch()">Initialize Smart Dispatch</button>
+        <div class="time-control">
+            <span class="time-label">Simulation:</span>
+            <div class="speed-stepper">
+                <button id="play-pause-btn" onclick="window.routeSystem.togglePlayPause()">⏸</button>
+                <div class="divider"></div>
+                <button onclick="window.routeSystem.changeSpeed(-0.5)">&#9664;</button>
+                <span id="speed-display">1.0x</span>
+                <button onclick="window.routeSystem.changeSpeed(0.5)">&#9654;</button>
+            </div>
+        </div>
+        <div id="fleet-status"><div class="status-box">System Standby: Awaiting Dispatch...</div></div>
+    </div>
+
+    <div id="module-analytics" class="ui-panel">
+        <h2>Data Analytics</h2>
+        <p class="panel-desc">Real-time zonal load distribution.</p>
+        <div class="chart-container">
+            <canvas id="zoneChart"></canvas>
+        </div>
+    </div>
+
+    <div id="module-admin" class="ui-panel">
+        <h2>Admin Override</h2>
+        <p class="panel-desc">Master system controls and scheduling directives.</p>
+        
+        <h3 style="color: #fff; font-size: 0.9rem; margin-top: 20px;">Automated Timetables</h3>
+        <div class="schedule-box">
+            <div class="schedule-item"><span>06:00 AM</span> Morning Sweep (All Zones)</div>
+            <div class="schedule-item"><span>14:00 PM</span> High-Traffic Flush (ISBT Hub)</div>
+            <div class="schedule-item"><span>22:00 PM</span> Night Operations (Residencies)</div>
+        </div>
+
+        <h3 style="color: #fff; font-size: 0.9rem;">Manual Fleet Override</h3>
+        <p style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 15px;">Use this interface to force-empty hardware in the event of sensor failure.</p>
+        
+        <div id="admin-bin-list">
+            </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script src="config.js"></script>
     <script src="data.js"></script>
     <script src="app.js"></script>
+    <script src="routing.js"></script>
+    <script src="analytics.js"></script>
 </body>
 </html>

@@ -42,6 +42,26 @@ class WasteManagementSystem {
         this.markerLayerGroup.addTo(this.map); 
     }
 
+    switchModule(moduleName, clickedElement) {
+        if (clickedElement && clickedElement.classList.contains('active')) {
+            clickedElement.classList.remove('active');
+            document.querySelectorAll('.ui-panel').forEach(panel => panel.classList.remove('active-panel'));
+            return; 
+        }
+
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        if (clickedElement) clickedElement.classList.add('active');
+
+        document.querySelectorAll('.ui-panel').forEach(panel => panel.classList.remove('active-panel'));
+        document.getElementById(`module-${moduleName}`).classList.add('active-panel');
+
+        if(this.map) {
+            setTimeout(() => { this.map.invalidateSize(); }, 300);
+        }
+
+        if (moduleName === 'analytics') window.analyticsSystem.renderChart();
+    }
+
     initZoomListener() {
         this.map.on('zoomend', () => {
             if (this.map.getZoom() >= this.config.zoomThreshold) {
@@ -81,6 +101,7 @@ class WasteManagementSystem {
 
     updateSystem() {
         let dashboardHTML = ''; 
+        let adminHTML = ''; 
         let heatData = [];
         let currentZone = "";
         
@@ -106,11 +127,34 @@ class WasteManagementSystem {
                 </div>
             `;
 
+            adminHTML += `
+                <div class="admin-row" style="border-left-color: ${color}">
+                    <div>
+                        <div class="admin-bin-name">${bin.name} (${bin.zone})</div>
+                        <div class="admin-bin-cap">Current Load: ${bin.capacity}%</div>
+                    </div>
+                    <button onclick="window.appSystem.emptyBin(${bin.id})">Force Empty</button>
+                </div>
+            `;
+
             this.renderMarker(bin, color);
         });
 
-        // Batch DOM injection for performance
+        if (window.disposalCenters) {
+            window.disposalCenters.forEach(center => {
+                const hqIcon = L.divIcon({
+                    html: `<div class="hq-marker"><div class="hq-core"></div><div class="hq-pulse"></div></div>`,
+                    className: '', iconSize: [30, 30], iconAnchor: [15, 15]
+                });
+                
+                L.marker([center.lat, center.lng], { icon: hqIcon })
+                 .bindPopup(`<div class="popup-title">${center.name}</div><p style="font-size:0.8rem;color:#9ca3af;">Status: Operational</p>`)
+                 .addTo(this.markerLayerGroup);
+            });
+        }
+
         document.getElementById('bin-list').innerHTML = dashboardHTML;
+        document.getElementById('admin-bin-list').innerHTML = adminHTML; // NEW
 
         if (this.heatmapLayer) this.map.removeLayer(this.heatmapLayer);
         this.heatmapLayer = L.heatLayer(heatData, {
@@ -122,6 +166,10 @@ class WasteManagementSystem {
             this.map.addLayer(this.markerLayerGroup);
         } else {
             this.map.addLayer(this.heatmapLayer);
+        }
+
+        if (window.analyticsSystem && document.getElementById('module-analytics').classList.contains('active-panel')) {
+            window.analyticsSystem.renderChart();
         }
     }
 
