@@ -2,98 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Smart Waste Management System</title>
-    <style>
-        body {
-            background-color: #0a0e17; /* Dark command-center background */
-            color: #e0e6ed;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 2px solid #00ffcc;
-            padding-bottom: 20px;
-            width: 100%;
-            max-width: 900px;
-        }
-        h1 {
-            color: #00ffcc; /* Neon cyan accent */
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            width: 100%;
-            max-width: 900px;
-        }
-        .panel {
-            background-color: #111928;
-            border: 1px solid #1f2937;
-            border-left: 4px solid #00ffcc;
-            padding: 25px;
-            border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        .panel h2 {
-            color: #ffffff;
-            margin-top: 0;
-            font-size: 1.2rem;
-            border-bottom: 1px solid #374151;
-            padding-bottom: 10px;
-        }
-        ul {
-            list-style-type: square;
-            color: #9ca3af;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        p {
-            line-height: 1.6;
-            color: #9ca3af;
-        }
-    </style>
+    <title>Smart Waste Management System - Dehradun Command</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="header">
-        <h1>Design & Implementation of Smart Waste Management System</h1>
+    <div id="dashboard">
+        <h2>Dehradun Central</h2>
+        <div id="bin-list">
+            </div>
     </div>
 
-    <div class="dashboard">
-        <div class="panel">
-            <h2>1. Description</h2>
-            <p>The Smart Waste Management System is an IoT-based application designed to monitor garbage bin levels in real-time and optimize waste collection routes. Sensors installed in waste bins send data to a central system, which helps municipal authorities plan efficient garbage collection and reduce environmental pollution.</p>
-        </div>
-
-        <div class="panel">
-            <h2>2. Modules</h2>
-            <ul>
-                <li>Smart Bin Monitoring</li>
-                <li>Waste Collection Scheduling</li>
-                <li>Route Optimization</li>
-                <li>Admin Dashboard</li>
-                <li>Reporting and Analytics</li>
-            </ul>
-        </div>
-
-        <div class="panel">
-            <h2>3. Client Deliverables</h2>
-            <ul>
-                <li>Software Requirement Specification (SRS)</li>
-                <li>ER Diagram</li>
-                <li>Class Diagram</li>
-            </ul>
-        </div>
+    <div id="map-container">
+        <div id="map"></div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    
+    <script src="config.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
